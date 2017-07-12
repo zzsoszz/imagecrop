@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="js/jquery-3.2.0.js"></script>
+	<script src="js/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+	<script src="js/main.js"></script>
+	<script>
+		$(document).ready(function (argument) {
+			var img=null;
+			
+			var ctx=$(".previewcanvas").get(0).getContext('2d');
+			$(".image-source").on("load",function(e){
+				img=e.currentTarget;
+				console.log(img);
+				ctx.drawImage(img, 0, 0, 100, 100, 0, 0, 100, 100);
+			});
+
+			$( ".selection" ).draggable({
+				  containment:".image-container",
+			      start: function() {
+			        console.log("start");
+			      },
+			      drag: function() {
+			        console.log("drag");
+			      },
+			      stop: function(e) {
+			      	var ele=$(e.target);
+			      	var left= ele.position().left;
+			      	var top=ele.position().top;
+			      	console.log(img,left+" "+top);
+			       	ctx.drawImage(img, left, top, 100, 100, 0, 0, 100, 100);
+			      }
+			});
+			//$( ".selection" ).resizable();
+		});
+	</script>
+</head>
+<body>
+
+<div class="image-container" style="display: inline-block;font-size:0;line-height:0;position:relative;">
+	<img class="image-source" src="images/star.jpg"></img>
+	<div class="selection" style="position:absolute;left:0;top:0;display: inline-block;width:100px;height:100px;background:#eee;opacity:0.5"></div>
+	<div class="preview" style="position: absolute;bottom:0;right:0;">
+		<canvas class="previewcanvas"  width="100px" height="100px"></canvas>
+	</div>
+</div>
+
+
+</body>
+</html>
