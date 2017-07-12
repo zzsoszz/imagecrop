@@ -8,15 +8,13 @@
 	<script src="js/main.js"></script>
 	<script>
 		$(document).ready(function (argument) {
-			var img=null;
-			
-			var ctx=$(".previewcanvas").get(0).getContext('2d');
-			$(".image-source").on("load",function(e){
-				img=e.currentTarget;
-				console.log(img);
-				ctx.drawImage(img, 0, 0, 100, 100, 0, 0, 100, 100);
+			var canvas=$(".previewcanvas").get(0);
+			var ctx=canvas.getContext('2d');
+			var img=$(".image-source");
+			img.on("load",function(e){
+				console.log(img.get(0));
+				ctx.drawImage(img.get(0), 0, 0, 100, 100, 0, 0, 100, 100);
 			});
-
 			$( ".selection" ).draggable({
 				  containment:".image-container",
 			      start: function() {
@@ -30,10 +28,17 @@
 			      	var left= ele.position().left;
 			      	var top=ele.position().top;
 			      	console.log(img,left+" "+top);
-			       	ctx.drawImage(img, left, top, 100, 100, 0, 0, 100, 100);
+
+			       	ctx.drawImage(img.get(0), left, top, 100, 100, 0, 0, 100, 100);
+			       	var a = $('.cropped-image');
+			       	var base64ImageData = canvas.toDataURL();
+				    a.attr('href', base64ImageData)
+				     .text('cropped image');
+				     
+				    
 			      }
 			});
-			//$( ".selection" ).resizable();
+
 		});
 	</script>
 </head>
@@ -46,6 +51,9 @@
 		<canvas class="previewcanvas"  width="100px" height="100px"></canvas>
 	</div>
 </div>
+<a class="cropped-image" title="click to download the image" >
+下载
+</a>
 
 
 </body>
