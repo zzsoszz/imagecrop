@@ -24,6 +24,7 @@
 			        console.log("drag");
 			      },
 			      stop: function(e) {
+			      	
 			      	var ele=$(e.target);
 			      	var left= ele.position().left;
 			      	var top=ele.position().top;
@@ -34,8 +35,7 @@
 			       	var base64ImageData = canvas.toDataURL();
 				    a.attr('href', base64ImageData)
 				     .text('cropped image');
-				     
-				    
+
 			      }
 			});
 
