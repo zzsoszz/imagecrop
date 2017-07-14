@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="js/jquery-3.2.0.js"></script>
+	<script src="js/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+	<script src="js/main.js"></script>
+	<script>
+
+		function circle_image(img) {
+			if (typeof img !== 'object') {
+				var tem = new Image();
+				tem.src = img;
+				img = tem;
+			}
+			var w, h, _canv, _contex, cli;
+			if (img.width > img.height) {
+				w = img.height;
+				h = img.height;
+			} else {
+				w = img.width;
+				h = img.width;
+			}
+			_canv = document.createElement('canvas');
+			_canv.width = w;
+			_canv.height = h;
+			_contex = _canv.getContext("2d");
+			cli = {
+				x: w / 2,
+				y: h / 2,
+				r: w / 2
+			};
+			_contex.clearRect(0, 0, w, h);
+			_contex.save();
+			_contex.beginPath();
+			_contex.arc(cli.x, cli.y, cli.r, 0, Math.PI * 2, false);
+			_contex.clip();
+			_contex.drawImage(img, 0, 0);
+			_contex.restore();
+			return _canv.toDataURL();
+		}
+
+		$(document).ready(function (argument) {
+
+
+			var canvas=$(".previewcanvas").get(0);
+			var ctx=canvas.getContext('2d');
+			var img=$(".image-source");
+			img.on("load",function(e){
+				console.log(img.get(0));
+				ctx.drawImage(img.get(0), 0, 0, 100, 100, 0, 0, 100, 100);
+			});
+			$( ".selection" ).draggable({
+				  containment:".image-container",
+			      start: function() {
+			        console.log("start");
+			      },
+			      drag: function() {
+			        console.log("drag");
+			      },
+			      stop: function(e) {
+			      	
+			      	var ele=$(e.target);
+			      	var left= ele.position().left;
+			      	var top=ele.position().top;
+			      	console.log(img,left+" "+top);
+
+			      	//preview  rectangle
+			       	//ctx.drawImage(img.get(0), left, top, 100, 100, 0, 0, 100, 100);
+			       	
+			       	
+			       	//preview circle
+					ctx.clearRect(0, 0, 100,100);
+					ctx.save();
+					ctx.beginPath();
+					ctx.arc(50, 50, 50, 0, Math.PI * 2, false);
+					ctx.clip();
+					ctx.drawImage(img.get(0), left, top, 100, 100, 0, 0, 100, 100);
+					ctx.restore();
+					
+
+			       	//create download link
+			       	var a = $('.cropped-image');
+			       	var base64ImageData = canvas.toDataURL();
+				    a.attr('href', base64ImageData)
+				     .text('cropped image');
+
+
+			      }
+			});
+
+
+
+
+		});
+	</script>
+</head>
+<body>
+
+
+
+<div class="image-container" style="display: inline-block;font-size:0;line-height:0;position:relative;">
+	<img class="image-source" src="images/star.jpg"></img>
+	<div class="selection" style="position:absolute;left:0;top:0;display: inline-block;width:100px;height:100px;background:#eee;opacity:0.5"></div>
+	<div class="preview" style="position: absolute;bottom:0;right:0;">
+		<canvas class="previewcanvas"  width="100px" height="100px"></canvas>
+	</div>
+</div>
+
+
+
+<a class="cropped-image" title="click to download the image" >
+下载
+</a>
+
+
+</body>
+</html>

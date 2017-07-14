@@ -15,21 +15,27 @@
 	 <script>
 		
 		(function() {
+
+
 		  var canvas = this.__canvas = new fabric.Canvas('c');
-		  fabric.Object.prototype.transparentCorners = false;
-		  var radius = 300;
+		  //fabric.Object.prototype.transparentCorners = false;
+		  var radius = 50;
 		  fabric.Image.fromURL('images/1.jpg', function(img) {
 		    img.scale(0.5).set({
 		      left: 100,
 		      top: 100,
-		      angle: -15,
+		      angle: 0,
 		      clipTo: function (ctx) {
-		        ctx.arc(0, 0, radius, 0, Math.PI * 2, true);
+		        ctx.arc(0, 0, 100, 0, Math.PI * 2, true);
 		      }
 		    });
-		    canvas.add(img).setActiveObject(img);
+		    canvas.add(img);//.setActiveObject(img);
+		    //canvas.add(img).setActiveObject(img);
 		  });
 
+
+
+/*
 		  (function animate() {
 		    fabric.util.animate({
 		      startValue: Math.round(radius) === 50 ? 50 : 300,
@@ -42,6 +48,9 @@
 		      onComplete: animate
 		    });
 		  })();
+*/
+
+
 		})();
 
 	</script>
