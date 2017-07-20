@@ -43,24 +43,20 @@
             *2.页面加载时x,y没有传值.(鼠标抬起)
             */
             if (!posA && x && y && this.isCurrent) {
-                    
                     ctx.fillStyle = '#ff0000';
                     currentC=this;
                     this.isCurrent=true;
-                    if(selected.length>0)
-                    {
+                    if(selected.length>0){
                         console.log(selected.length);
+
                         if(!exist){
                             console.log('notexits');
                             selected.push(this);
                         }
                         exist=false;/*判断过后，重置元素是否在选区中的状态*/
-                    }
-                    else
-                    {
+                    }else{
                         selected.push(this);
                     }
-
             }else{
 
                 if(posA){/*拖选过程中，碰撞检测*/
@@ -123,25 +119,6 @@
         }
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     function draw(action){
         console.log('draw func');
         var canvas = document.getElementById('tutorial');
